@@ -1,0 +1,43 @@
+{
+  "name": "@question-exchange/web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@question-exchange/shared": "workspace:*",
+    "next": "14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@tanstack/react-query": "^5.12.2",
+    "axios": "^1.6.2",
+    "zustand": "^4.4.7",
+    "react-hook-form": "^7.48.2",
+    "@hookform/resolvers": "^3.3.2",
+    "socket.io-client": "^4.5.4",
+    "yjs": "^13.6.10",
+    "y-websocket": "^1.5.0",
+    "@tiptap/react": "^2.1.13",
+    "@tiptap/starter-kit": "^2.1.13",
+    "@tiptap/extension-collaboration": "^2.1.13",
+    "@tiptap/extension-collaboration-cursor": "^2.1.13",
+    "react-hot-toast": "^2.4.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.17",
+    "typescript": "^5.3.0",
+    "eslint": "^8.55.0",
+    "eslint-config-next": "14.0.4",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6"
+  }
+}

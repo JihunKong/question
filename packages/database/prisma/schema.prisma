@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  name            String?
+  passwordHash    String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  questions       Question[]
+  questionEdits   QuestionVersion[]
+  contextEdits    ContextVersion[]
+  collaborations  Collaboration[]
+  
+  @@index([email])
+}
+
+model Question {
+  id            String   @id @default(cuid())
+  coreQuestion  String
+  status        Status   @default(DRAFT)
+  valueScore    Float    @default(0)
+  reusability   Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  userId        String
+  
+  user          User     @relation(fields: [userId], references: [id])
+  context       Context?
+  tags          QuestionTag[]
+  parentChains  QuestionChain[] @relation("ParentQuestion")
+  childChains   QuestionChain[] @relation("ChildQuestion")
+  versions      QuestionVersion[]
+  collaborations Collaboration[]
+  evaluations   Evaluation[]
+  
+  @@index([status, createdAt])
+  @@index([valueScore])
+  @@index([userId])
+}
+
+model Context {
+  id                String   @id @default(cuid())
+  questionId        String   @unique
+  background        String
+  priorKnowledge    String
+  attemptedApproach String
+  expectedUse       String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  question          Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  versions          ContextVersion[]
+  
+  @@index([questionId])
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  category    String?
+  usageCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+  
+  questions   QuestionTag[]
+  
+  @@index([name])
+  @@index([category])
+}
+
+model QuestionTag {
+  questionId  String
+  tagId       String
+  createdAt   DateTime @default(now())
+  
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag         Tag      @relation(fields: [tagId], references: [id])
+  
+  @@id([questionId, tagId])
+  @@index([tagId])
+}
+
+model QuestionChain {
+  id              String   @id @default(cuid())
+  parentId        String
+  childId         String
+  relationshipType String  // "elaboration", "follow-up", "alternative", etc.
+  createdAt       DateTime @default(now())
+  
+  parent          Question @relation("ParentQuestion", fields: [parentId], references: [id])
+  child           Question @relation("ChildQuestion", fields: [childId], references: [id])
+  
+  @@unique([parentId, childId])
+  @@index([parentId])
+  @@index([childId])
+}
+
+model QuestionVersion {
+  id             String   @id @default(cuid())
+  questionId     String
+  coreQuestion   String
+  versionNumber  Int
+  changeReason   String?
+  createdAt      DateTime @default(now())
+  userId         String
+  
+  question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [userId], references: [id])
+  
+  @@unique([questionId, versionNumber])
+  @@index([questionId])
+}
+
+model ContextVersion {
+  id                String   @id @default(cuid())
+  contextId         String
+  background        String
+  priorKnowledge    String
+  attemptedApproach String
+  expectedUse       String
+  versionNumber     Int
+  changeReason      String?
+  createdAt         DateTime @default(now())
+  userId            String
+  
+  context           Context  @relation(fields: [contextId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id])
+  
+  @@unique([contextId, versionNumber])
+  @@index([contextId])
+}
+
+model Collaboration {
+  id          String   @id @default(cuid())
+  questionId  String
+  userId      String
+  role        CollaborationRole @default(VIEWER)
+  joinedAt    DateTime @default(now())
+  lastActive  DateTime @default(now())
+  
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
+  
+  @@unique([questionId, userId])
+  @@index([questionId])
+  @@index([userId])
+}
+
+model Evaluation {
+  id                    String   @id @default(cuid())
+  questionId            String
+  contextCompleteness   Float
+  questionQuality       Float
+  rippleEffect          Float
+  originality           Float
+  interactivity         Float
+  totalScore            Float
+  metadata              Json?    // Store additional metrics
+  createdAt             DateTime @default(now())
+  
+  question              Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  @@index([questionId])
+  @@index([createdAt])
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ANSWERED
+  ARCHIVED
+}
+
+enum CollaborationRole {
+  VIEWER
+  EDITOR
+  OWNER
+}

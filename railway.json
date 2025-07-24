@@ -1,0 +1,84 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  },
+  "services": [
+    {
+      "name": "postgres",
+      "image": "postgres:15",
+      "volumes": ["/var/lib/postgresql/data"],
+      "env": {
+        "POSTGRES_DB": "question_exchange",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "${{POSTGRES_PASSWORD}}"
+      }
+    },
+    {
+      "name": "redis",
+      "image": "redis:7-alpine",
+      "volumes": ["/data"]
+    },
+    {
+      "name": "api",
+      "source": {
+        "repo": "services/api"
+      },
+      "deploy": {
+        "startCommand": "npm run migrate && npm start",
+        "healthcheckPath": "/health",
+        "healthcheckInterval": 30
+      },
+      "env": {
+        "DATABASE_URL": "${{POSTGRES_DATABASE_URL}}",
+        "REDIS_URL": "${{REDIS_URL}}",
+        "JWT_SECRET": "${{JWT_SECRET}}",
+        "AI_SERVICE_URL": "http://ai-processor.railway.internal:3003"
+      }
+    },
+    {
+      "name": "web",
+      "source": {
+        "repo": "services/web"
+      },
+      "deploy": {
+        "startCommand": "npm run build && npm start"
+      },
+      "env": {
+        "NEXT_PUBLIC_API_URL": "${{API_URL}}",
+        "NEXT_PUBLIC_WS_URL": "${{REALTIME_URL}}"
+      }
+    },
+    {
+      "name": "realtime",
+      "source": {
+        "repo": "services/realtime"
+      },
+      "deploy": {
+        "healthcheckPath": "/health"
+      },
+      "env": {
+        "REDIS_URL": "${{REDIS_URL}}",
+        "JWT_SECRET": "${{JWT_SECRET}}"
+      }
+    },
+    {
+      "name": "ai-processor",
+      "source": {
+        "repo": "services/ai-processor"
+      },
+      "deploy": {
+        "startCommand": "python main.py",
+        "healthcheckPath": "/health"
+      },
+      "env": {
+        "DATABASE_URL": "${{POSTGRES_DATABASE_URL}}"
+      }
+    }
+  ]
+}
