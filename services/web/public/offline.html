@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오프라인 - 질문 교환 플랫폼</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: 1rem;
+    }
+    h1 {
+      color: #1f2937;
+      font-size: 1.875rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2rem;
+      opacity: 0.8;
+    }
+    .features {
+      text-align: left;
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+    .features h2 {
+      font-size: 1.125rem;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+    .features ul {
+      margin: 0;
+      padding-left: 1.5rem;
+      color: #4b5563;
+    }
+    .features li {
+      margin-bottom: 0.5rem;
+    }
+    .retry-button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .retry-button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+      <path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    
+    <h1>오프라인 모드</h1>
+    <p>
+      현재 인터넷 연결이 없습니다.<br>
+      네트워크가 복구되면 자동으로 연결됩니다.
+    </p>
+    
+    <button class="retry-button" onclick="location.reload()">
+      다시 시도
+    </button>
+    
+    <div class="features">
+      <h2>오프라인에서도 가능한 기능:</h2>
+      <ul>
+        <li>저장된 질문 보기</li>
+        <li>새 질문 작성 (나중에 동기화)</li>
+        <li>기본 질문 템플릿 사용</li>
+        <li>학습 자료 다운로드</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Check connection status periodically
+    setInterval(() => {
+      if (navigator.onLine) {
+        location.reload();
+      }
+    }, 5000);
+  </script>
+</body>
+</html>
