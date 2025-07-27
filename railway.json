@@ -30,7 +30,7 @@
         "repo": "services/api"
       },
       "deploy": {
-        "startCommand": "npm run migrate && npm start",
+        "startCommand": "./build-api.sh && ./migrate.sh && npm run start:api",
         "healthcheckPath": "/health",
         "healthcheckInterval": 30
       },

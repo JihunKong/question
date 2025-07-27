@@ -6,6 +6,9 @@ if [ -z "$DATABASE_URL" ]; then
   exit 0
 fi
 
+echo "Generating Prisma client..."
+npx prisma generate --schema=packages/database/prisma/schema.prisma
+
 echo "Running database migrations..."
 npx prisma migrate deploy --schema=packages/database/prisma/schema.prisma
 
