@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { prisma } from '@question-exchange/database';
+import { prisma, Prisma } from '@question-exchange/database';
 import {
   questionFormSchema,
   questionUpdateSchema,
@@ -18,7 +18,7 @@ questionsRouter.post('/', authenticate, async (req: AuthRequest, res, next) => {
   try {
     const data = questionFormSchema.parse(req.body);
     
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Create question
       const question = await tx.question.create({
         data: {
@@ -256,7 +256,7 @@ questionsRouter.put('/:id', authenticate, async (req: AuthRequest, res, next) =>
     }
     
     // Update question and create version if core question changed
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       if (data.coreQuestion && data.coreQuestion !== question.coreQuestion) {
         // Get current version number
         const latestVersion = await tx.questionVersion.findFirst({

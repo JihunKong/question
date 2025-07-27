@@ -10,7 +10,7 @@ export interface AuthRequest extends Request {
   };
 }
 
-export function authenticate(req: AuthRequest, res: Response, next: NextFunction) {
+export function authenticate(req: AuthRequest, _res: Response, next: NextFunction) {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     
@@ -39,7 +39,7 @@ export function authenticate(req: AuthRequest, res: Response, next: NextFunction
   }
 }
 
-export function optionalAuth(req: AuthRequest, res: Response, next: NextFunction) {
+export function optionalAuth(req: AuthRequest, _res: Response, next: NextFunction) {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     

@@ -38,12 +38,12 @@ tagsRouter.get('/', optionalAuth, async (req, res, next) => {
       data: tags,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 
 // Get tag categories
-tagsRouter.get('/categories', async (req, res, next) => {
+tagsRouter.get('/categories', async (_req, res, next) => {
   try {
     const categories = await prisma.tag.findMany({
       where: {
@@ -64,7 +64,7 @@ tagsRouter.get('/categories', async (req, res, next) => {
       data: categoryList,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 
@@ -89,7 +89,7 @@ tagsRouter.get('/popular', async (req, res, next) => {
       data: tags,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 
@@ -150,7 +150,7 @@ tagsRouter.get('/:name/questions', async (req, res, next) => {
       }),
     ]);
     
-    res.json({
+    return res.json({
       success: true,
       data: {
         tag,
@@ -164,6 +164,6 @@ tagsRouter.get('/:name/questions', async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });

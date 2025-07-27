@@ -3,7 +3,7 @@ import { prisma } from '@question-exchange/database';
 import { logger } from '../utils/logger';
 import { requireAuth } from '../utils/auth';
 
-export function questionHandler(io: Server, socket: Socket) {
+export function questionHandler(_io: Server, socket: Socket) {
   // Join question room
   socket.on('join-question', async (questionId: string) => {
     if (!requireAuth(socket)) return;

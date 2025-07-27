@@ -3,7 +3,7 @@ import { prisma } from '@question-exchange/database';
 
 export const healthRouter = Router();
 
-healthRouter.get('/', async (req, res) => {
+healthRouter.get('/', async (_req, res) => {
   try {
     // Check database connection
     await prisma.$queryRaw`SELECT 1`;

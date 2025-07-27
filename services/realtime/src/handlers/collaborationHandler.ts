@@ -7,7 +7,7 @@ import { prisma } from '@question-exchange/database';
 // Store Yjs documents in memory
 const documents = new Map<string, Y.Doc>();
 
-export function collaborationHandler(io: Server, socket: Socket) {
+export function collaborationHandler(_io: Server, socket: Socket) {
   // Handle Yjs sync
   socket.on('doc-sync', async (data: {
     questionId: string;
@@ -139,7 +139,7 @@ function scheduleSave(questionId: string, doc: Y.Doc) {
       const questionText = doc.getText('question').toString();
       const contextMap = doc.getMap('context');
 
-      await prisma.$transaction(async (tx) => {
+      await prisma.$transaction(async (tx: any) => {
         // Update question
         await tx.question.update({
           where: { id: questionId },
@@ -175,9 +175,6 @@ function scheduleSave(questionId: string, doc: Y.Doc) {
 
 // Clean up old documents periodically
 setInterval(() => {
-  const now = Date.now();
-  const maxAge = 30 * 60 * 1000; // 30 minutes
-
   documents.forEach((doc, key) => {
     // Simple cleanup - in production, track last access time
     if (doc.clientID === 0) { // No clients connected

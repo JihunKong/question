@@ -2,11 +2,6 @@ import { Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { logger } from './logger';
 
-interface SocketData {
-  userId: string;
-  email: string;
-}
-
 export async function setupAuth(socket: Socket, next: (err?: any) => void) {
   try {
     const token = socket.handshake.auth.token;

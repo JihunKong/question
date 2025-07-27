@@ -17,7 +17,7 @@ export function errorHandler(
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) {
   logger.error('Error occurred:', {
     error: err.message,
@@ -73,7 +73,7 @@ export function errorHandler(
   }
 
   // Default error
-  res.status(500).json({
+  return res.status(500).json({
     success: false,
     error: {
       message: process.env.NODE_ENV === 'production' 
