@@ -1,6 +1,5 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci && npx prisma generate --schema=packages/database/prisma/schema.prisma && npm run build"
 
 [deploy]
 startCommand = "npx prisma migrate deploy --schema=packages/database/prisma/schema.prisma && npm run start:api"

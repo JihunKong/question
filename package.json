@@ -23,8 +23,7 @@
     "start:realtime": "npm run start -w @question-exchange/realtime",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "test": "npm run test --workspaces --if-present",
-    "postinstall": "npm run build -w @question-exchange/database && npm run build -w @question-exchange/shared"
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
     "@types/node": "^20.17.7",

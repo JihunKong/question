@@ -8,8 +8,8 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@question-exchange/database": "workspace:*",
-    "@question-exchange/shared": "workspace:*",
+    "@question-exchange/database": "file:../../packages/database",
+    "@question-exchange/shared": "file:../../packages/shared",
     "socket.io": "^4.8.1",
     "@socket.io/redis-adapter": "^8.3.0",
     "redis": "^4.7.0",

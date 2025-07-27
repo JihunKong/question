@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@question-exchange/database": "workspace:*",
-    "@question-exchange/shared": "workspace:*",
+    "@question-exchange/database": "file:../../packages/database",
+    "@question-exchange/shared": "file:../../packages/shared",
     "express": "^4.21.2",
     "cors": "^2.8.5",
     "helmet": "^8.0.0",

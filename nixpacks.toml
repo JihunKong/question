@@ -2,12 +2,12 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["npm install --legacy-peer-deps"]
+cmds = ["npm ci"]
 
 [phases.build]
 cmds = [
   "npx prisma generate --schema=packages/database/prisma/schema.prisma",
-  "npm run build"
+  "npm run build --workspaces --if-present"
 ]
 
 [start]
