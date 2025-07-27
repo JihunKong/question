@@ -18,7 +18,7 @@
     "build:web": "npm run build -w @question-exchange/web",
     "build:realtime": "npm run build -w @question-exchange/realtime",
     "start": "npm run start:api",
-    "start:api": "npm run start -w @question-exchange/api",
+    "start:api": "./migrate.sh && npm run start -w @question-exchange/api",
     "start:web": "npm run start -w @question-exchange/web",
     "start:realtime": "npm run start -w @question-exchange/realtime",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
