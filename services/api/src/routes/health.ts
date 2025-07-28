@@ -45,7 +45,7 @@ healthRouter.get('/', async (_req, res) => {
   
   const responseTime = Date.now() - startTime;
   
-  res.status(httpStatus).json({
+  return res.status(httpStatus).json({
     status: 'ok',
     service: 'api',
     timestamp: new Date().toISOString(),

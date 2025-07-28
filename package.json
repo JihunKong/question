@@ -14,6 +14,7 @@
     "dev:realtime": "npm run dev -w @question-exchange/realtime",
     "dev:ai": "npm run dev -w @question-exchange/ai-processor",
     "build": "npm run build --workspaces --if-present",
+    "build:sequential": "npm run build -w @question-exchange/shared && npm run build -w @question-exchange/database && npm run build -w @question-exchange/api && npm run build -w @question-exchange/web && npm run build -w @question-exchange/realtime",
     "build:api": "npm run build -w @question-exchange/api",
     "build:web": "npm run build -w @question-exchange/web",
     "build:realtime": "npm run build -w @question-exchange/realtime",
