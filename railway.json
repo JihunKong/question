@@ -30,9 +30,11 @@
         "repo": "services/api"
       },
       "deploy": {
-        "startCommand": "./build-api.sh && ./migrate.sh && npm run start:api",
+        "startCommand": "npm run start:api",
         "healthcheckPath": "/health",
-        "healthcheckInterval": 30
+        "healthcheckInterval": 30,
+        "healthcheckTimeout": 10,
+        "healthcheckMaxRetries": 5
       },
       "env": {
         "DATABASE_URL": "${{POSTGRES_DATABASE_URL}}",

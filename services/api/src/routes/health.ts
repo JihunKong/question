@@ -6,11 +6,32 @@ export const healthRouter = Router();
 healthRouter.get('/', async (_req, res) => {
   let databaseStatus = 'unknown';
   let httpStatus = 200;
+  const startTime = Date.now();
+  
+  // Quick response for Railway health checks
+  if (process.uptime() < 30) {
+    // Service just started, respond immediately
+    return res.status(httpStatus).json({
+      status: 'warming-up',
+      service: 'api',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: process.env.NODE_ENV || 'development',
+      message: 'Service is starting up'
+    });
+  }
   
   try {
     // Check database connection only if DATABASE_URL is set
     if (process.env.DATABASE_URL) {
-      await prisma.$queryRaw`SELECT 1`;
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Database check timeout')), 5000)
+      );
+      
+      const dbCheckPromise = prisma.$queryRaw`SELECT 1`;
+      
+      await Promise.race([dbCheckPromise, timeoutPromise]);
       databaseStatus = 'connected';
     } else {
       databaseStatus = 'no-database-url';
@@ -22,6 +43,8 @@ healthRouter.get('/', async (_req, res) => {
     console.error('Database health check failed:', error);
   }
   
+  const responseTime = Date.now() - startTime;
+  
   res.status(httpStatus).json({
     status: 'ok',
     service: 'api',
@@ -30,5 +53,10 @@ healthRouter.get('/', async (_req, res) => {
     environment: process.env.NODE_ENV || 'development',
     database: databaseStatus,
     port: process.env.PORT || 3001,
+    responseTime: `${responseTime}ms`,
+    memory: {
+      used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+      total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB'
+    }
   });
 });

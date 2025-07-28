@@ -1,14 +1,19 @@
 [phases.setup]
-nixPkgs = ["nodejs_20"]
+nixPkgs = ["nodejs_20", "bash"]
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm ci --workspace-root --workspaces"]
 
 [phases.build]
 cmds = [
+  "chmod +x *.sh",
   "DATABASE_URL='postgresql://temp:temp@localhost:5432/temp' npx prisma generate --schema=packages/database/prisma/schema.prisma",
-  "npm run build --workspaces --if-present"
+  "npm run build --workspaces --if-present",
+  "echo 'Build completed at:' && date"
 ]
 
 [start]
-cmd = "npm run start"
+cmd = "npm run start:api"
+
+[variables]
+NODE_ENV = "production"
