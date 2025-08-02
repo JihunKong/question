@@ -3,11 +3,10 @@
 
 [build]
 builder = "NIXPACKS"
-buildCommand = "cd services/web && npm ci && npm run build"
 
 [deploy]
-startCommand = "cd services/web && npm run start"
-healthcheckPath = "/"
+startCommand = "node railway-simple-api.js"
+healthcheckPath = "/health"
 healthcheckInterval = 30
 healthcheckTimeout = 10
 restartPolicyType = "ON_FAILURE"
