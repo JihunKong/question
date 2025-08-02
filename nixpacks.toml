@@ -12,8 +12,5 @@ cmds = [
   "echo 'Build completed at:' && date"
 ]
 
-[start]
-cmd = "./start-api.sh"
-
 [variables]
 NODE_ENV = "production"
