@@ -2,13 +2,12 @@
 nixPkgs = ["nodejs_20", "bash"]
 
 [phases.install]
-cmds = ["npm ci --workspace-root --workspaces"]
+cmds = ["echo 'Skipping npm install for ultra simple version'"]
 
 [phases.build]
 cmds = [
   "chmod +x *.sh",
-  "DATABASE_URL='postgresql://temp:temp@localhost:5432/temp' npx prisma generate --schema=packages/database/prisma/schema.prisma",
-  "npm run build:sequential",
+  "echo 'Railway Simple Build - Skipping complex builds'",
   "echo 'Build completed at:' && date"
 ]
 
