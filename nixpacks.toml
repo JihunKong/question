@@ -2,13 +2,10 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["npm ci --workspace-root --workspaces"]
+cmds = ["cd services/web && npm ci"]
 
 [phases.build]
-cmds = [
-  "cd services/web",
-  "npm run build"
-]
+cmds = ["cd services/web && npm run build"]
 
 [variables]
 NODE_ENV = "production"

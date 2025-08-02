@@ -3,7 +3,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { QuestionCard } from './QuestionCard';
 import api, { extractData } from '@/lib/api';
-import type { QuestionWithRelations } from '@question-exchange/shared';
+// Temporary inline types
+interface QuestionWithRelations {
+  id: string;
+  coreQuestion: string;
+  createdAt: string;
+}
 
 export function QuestionList() {
   const { data, isLoading, error } = useQuery({

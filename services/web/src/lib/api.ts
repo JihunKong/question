@@ -1,6 +1,14 @@
 import axios from 'axios';
-import type { ApiResponse } from '@question-exchange/shared';
 import toast from 'react-hot-toast';
+
+// Temporary inline type
+interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  error?: {
+    message: string;
+  };
+}
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',

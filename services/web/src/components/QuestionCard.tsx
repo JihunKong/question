@@ -1,6 +1,35 @@
 import Link from 'next/link';
-import type { QuestionWithRelations } from '@question-exchange/shared';
-import { formatDate } from '@question-exchange/shared';
+// Temporary inline types until shared package is properly configured
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
+interface Tag {
+  id: string;
+  name: string;
+}
+
+interface Evaluation {
+  totalScore: number;
+}
+
+interface Context {
+  background: string;
+}
+
+interface QuestionWithRelations {
+  id: string;
+  coreQuestion: string;
+  context?: Context;
+  tags: { tag: Tag }[];
+  user: User;
+  evaluations?: Evaluation[];
+  createdAt: string;
+}
+
+const formatDate = (date: string) => new Date(date).toLocaleDateString('ko-KR');
 
 interface QuestionCardProps {
   question: QuestionWithRelations;
