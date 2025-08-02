@@ -26,11 +26,8 @@
     },
     {
       "name": "api",
-      "source": {
-        "repo": "services/api"
-      },
       "deploy": {
-        "startCommand": "cd ../.. && ./migrate.sh && cd services/api && node dist/index.js",
+        "startCommand": "./start-api.sh",
         "healthcheckPath": "/health",
         "healthcheckInterval": 30,
         "healthcheckTimeout": 10,
@@ -45,11 +42,8 @@
     },
     {
       "name": "web",
-      "source": {
-        "repo": "services/web"
-      },
       "deploy": {
-        "startCommand": "npm run build && npm start"
+        "startCommand": "npm run build:web && npm run start:web"
       },
       "env": {
         "NEXT_PUBLIC_API_URL": "${{API_URL}}",
@@ -58,10 +52,8 @@
     },
     {
       "name": "realtime",
-      "source": {
-        "repo": "services/realtime"
-      },
       "deploy": {
+        "startCommand": "npm run start:realtime",
         "healthcheckPath": "/health"
       },
       "env": {
@@ -71,11 +63,8 @@
     },
     {
       "name": "ai-processor",
-      "source": {
-        "repo": "services/ai-processor"
-      },
       "deploy": {
-        "startCommand": "python main.py",
+        "startCommand": "cd services/ai-processor && python main.py",
         "healthcheckPath": "/health"
       },
       "env": {
