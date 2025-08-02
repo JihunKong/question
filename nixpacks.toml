@@ -2,10 +2,10 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["echo 'Skipping npm install for ultra simple version'"]
+cmds = ["npm install express cors"]
 
 [phases.build]
-cmds = ["echo 'No build needed for ultra simple version'"]
+cmds = ["echo 'No build needed for simple API'"]
 
 [variables]
 NODE_ENV = "production"
