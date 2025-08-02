@@ -16,9 +16,14 @@ if [ -n "$DATABASE_URL" ] && [ -n "$RAILWAY_ENVIRONMENT" ]; then
     ./migrate.sh && echo "Migration completed successfully" || echo "Migration failed"
   ) &
   
-  # Start server immediately
+  # Start server immediately - use simple version if main fails
   echo "Starting API server (migrations running in background)..."
-  exec node services/api/dist/index.js
+  if [ -f "services/api/dist/index-simple.js" ]; then
+    echo "Using simple server for Railway startup..."
+    exec node services/api/dist/index-simple.js
+  else
+    exec node services/api/dist/index.js
+  fi
 else
   # Non-Railway environment: Run migrations first (original behavior)
   if [ -n "$DATABASE_URL" ]; then
