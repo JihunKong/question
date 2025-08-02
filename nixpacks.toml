@@ -13,7 +13,7 @@ cmds = [
 ]
 
 [start]
-cmd = "npm run start:api"
+cmd = "npm run start:api:with-migrate"
 
 [variables]
 NODE_ENV = "production"
