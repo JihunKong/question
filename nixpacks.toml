@@ -2,10 +2,14 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["npm install express cors"]
+cmds = ["npm ci --workspace-root --workspaces"]
 
 [phases.build]
-cmds = ["echo 'No build needed for simple API'"]
+cmds = [
+  "cd services/web",
+  "npm run build"
+]
 
 [variables]
 NODE_ENV = "production"
+NEXT_PUBLIC_API_URL = "https://question-production-eaa3.up.railway.app"
