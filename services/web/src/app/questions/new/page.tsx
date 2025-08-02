@@ -4,7 +4,22 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { questionFormSchema, type QuestionFormInput } from '@question-exchange/shared';
+// Temporary inline types and schema
+import { z } from 'zod';
+
+const questionFormSchema = z.object({
+  coreQuestion: z.string().min(10, '질문은 최소 10자 이상이어야 합니다'),
+  context: z.object({
+    background: z.string().optional(),
+    priorKnowledge: z.string().optional(),
+    attemptedApproach: z.string().optional(),
+    expectedUse: z.string().optional(),
+  }).optional(),
+  tags: z.array(z.string()).optional(),
+  enableCollaboration: z.boolean().optional(),
+});
+
+type QuestionFormInput = z.infer<typeof questionFormSchema>;
 import { useMutation } from '@tanstack/react-query';
 import api, { extractData } from '@/lib/api';
 import toast from 'react-hot-toast';
