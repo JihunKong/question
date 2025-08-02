@@ -1,15 +1,11 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "bash"]
+nixPkgs = ["nodejs_20"]
 
 [phases.install]
 cmds = ["echo 'Skipping npm install for ultra simple version'"]
 
 [phases.build]
-cmds = [
-  "chmod +x *.sh",
-  "echo 'Railway Simple Build - Skipping complex builds'",
-  "echo 'Build completed at:' && date"
-]
+cmds = ["echo 'No build needed for ultra simple version'"]
 
 [variables]
 NODE_ENV = "production"
